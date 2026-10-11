@@ -1,0 +1,21 @@
+{# Qabas trust metrics — merchant-authored figures, never hardcoded claims #}
+{% if theme.settings.get('qabas_show_metrics', true) %}
+<div class="q-metrics">
+    {% for n in [1,2,3] %}
+        {% set val = attribute(component, 'm' ~ n ~ '_value') %}
+        {% set lab = attribute(component, 'm' ~ n ~ '_label') %}
+        {% if val %}
+            <div class="m">
+                <span class="ic"><i class="sicon-{{ n == 1 ? 'key' : (n == 2 ? 'check-circle' : 'comments') }}"></i></span>
+                <div><b>{{ val }}</b><span>{{ lab }}</span></div>
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% if store.settings.tax.number %}
+        <div class="m">
+            <span class="ic"><i class="sicon-shield-check"></i></span>
+            <div><b>{{ trans('qabas.registered') }}</b><span>{{ trans('qabas.registered_sub') }}</span></div>
+        </div>
+    {% endif %}
+</div>
+{% endif %}

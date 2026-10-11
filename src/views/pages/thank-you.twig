@@ -1,0 +1,71 @@
+{#
+  Qabas — code delivery page.
+  The most important screen in a digital store: the 30 seconds the buyer came for.
+  Digital codes arrive through order.items[].codes (Salla digital products) and
+  order.links[] with type == 'digital'.
+#}
+{% extends "layouts.master" %}
+{% block content %}
+<div class="q-wrap">
+
+    <section class="q-deliver">
+        <div class="dh">
+            <span class="q-tick"><i class="sicon-check"></i></span>
+            <h2>{{ trans('qabas.paid_heres_code') }}</h2>
+            <p>{{ trans('qabas.code_sent_note') }}</p>
+        </div>
+
+        {% set delivered = false %}
+
+        {% for item in order.items|default([]) %}
+            {% for code in item.codes|default([]) %}
+                {% set delivered = true %}
+                <div class="q-vault" style="margin-bottom:14px">
+                    {% if theme.settings.get('qabas_code_qr', true) %}
+                        <div class="q-qr" data-qr="{{ code.code|default(code) }}"
+                             aria-label="{{ trans('qabas.qr_label') }}"></div>
+                    {% endif %}
+                    <div class="q-vcol">
+                        <div class="q-code" data-code>{{ code.code|default(code) }}</div>
+                        <div class="q-vb">
+                            <button type="button" class="q-btn" data-copy>{{ trans('qabas.copy_code') }}</button>
+                            {% if theme.settings.get('qabas_code_redeem_btn', true) and item.redeem_url|default(false) %}
+                                <a href="{{ item.redeem_url }}" target="_blank" rel="noopener"
+                                   class="q-btn q-btn--solid">{{ trans('qabas.redeem_now') }}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        {# digital file links (Salla delivers some digital goods as files) #}
+        {% for link in order.links|default([]) %}
+            {% if link.type == 'digital' %}
+                {% set delivered = true %}
+                <div style="text-align:center;margin-top:12px">
+                    <a href="{{ link.url }}" class="q-btn q-btn--solid">{{ trans('qabas.open_digital') }}</a>
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        {% if not delivered %}
+            <div class="q-warn" style="max-width:720px;margin-inline:auto">
+                <i class="sicon-clock"></i>
+                <p>{{ trans('qabas.code_pending') }}</p>
+            </div>
+        {% endif %}
+
+        {% if order.id %}
+        <div class="q-dmeta">
+            <div><span>{{ trans('qabas.order_no') }}</span><b>#{{ order.id }}</b></div>
+            {% if order.total %}<div><span>{{ trans('qabas.total') }}</span><b>{{ order.total|money }}</b></div>{% endif %}
+            {% if order.date %}<div><span>{{ trans('qabas.date') }}</span><b>{{ order.date }}</b></div>{% endif %}
+            <div><span>{{ trans('qabas.status') }}</span><b>{{ order.status.name|default(trans('qabas.delivered')) }}</b></div>
+        </div>
+        {% endif %}
+    </section>
+
+    {% hook 'thank-you.after' %}
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+<footer class="q-foot">
+    <div class="q-wrap in">
+        <div>
+            <h4>{{ store.name }}</h4>
+            <p style="font-size:12.4px;color:var(--q-dim);line-height:1.7;margin:0">
+                {{ store.description|default(trans('qabas.footer_blurb')) }}
+            </p>
+        </div>
+
+        {% if menus.footer is defined and menus.footer|length %}
+            {% for group in menus.footer %}
+                <div>
+                    <h4>{{ group.title }}</h4>
+                    <ul>
+                        {% for item in group.children|default([]) %}
+                            <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div>
+            <h4>{{ trans('qabas.contact') }}</h4>
+            <ul>
+                {% if store.contacts.whatsapp %}
+                    <li><a href="https://wa.me/{{ store.contacts.whatsapp }}">{{ trans('qabas.whatsapp') }}</a></li>
+                {% endif %}
+                {% if store.contacts.email %}
+                    <li><a href="mailto:{{ store.contacts.email }}">{{ store.contacts.email }}</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="q-wrap bar">
+        <span>© {{ "now"|date("Y") }} {{ store.name }}</span>
+        {% if store.settings.tax.number %}
+            <span class="q-num">{{ trans('qabas.tax_no') }} {{ store.settings.tax.number }}</span>
+        {% endif %}
+    </div>
+</footer>

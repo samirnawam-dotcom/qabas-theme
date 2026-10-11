@@ -1,0 +1,10 @@
+{% if theme.settings.get('qabas_show_sla', true) %}
+<div class="q-shead"><h2>{{ trans('qabas.sla') }}</h2></div>
+<div class="q-sla">
+    {% for n in [1,2,3] %}
+        {% set t = attribute(component, 'sla' ~ n ~ '_title') %}
+        {% set x = attribute(component, 'sla' ~ n ~ '_text') %}
+        {% if t %}<div class="s"><b>{{ t }}</b><p>{{ x }}</p></div>{% endif %}
+    {% endfor %}
+</div>
+{% endif %}

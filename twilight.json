@@ -1,0 +1,524 @@
+{
+  "name": {
+    "ar": "قبس",
+    "en": "Qabas"
+  },
+  "repository": "https://github.com/samirnawam-dotcom/qabas-theme",
+  "author_email": "nawamsamir@gmail.com",
+  "support_url": "https://thrubits.com",
+  "description": {
+    "ar": "ثيم متخصص للمتاجر الرقمية: بطاقات الألعاب، الشحن داخل اللعبة، الاشتراكات والبطاقات المدفوعة. مبني حول وعد واحد — الكود يصل خلال ثوانٍ. يتضمن مُحدِّد منطقة، تنبيه توافق قبل الشراء، اختيار الفئة ببطاقات كبيرة، وصفحة تسليم كود مصممة بالكامل.",
+    "en": "A theme built for digital-goods stores: game cards, in-game top-ups, subscriptions and prepaid vouchers. Designed around one promise — the code arrives in seconds. Includes a region selector, pre-purchase compatibility warning, large denomination tiles, and a fully designed code-delivery page."
+  },
+  "features": [
+    "fonts",
+    "color",
+    "breadcrumb",
+    "unite-cards-height",
+    "filters",
+    "mega-menu",
+    "menu-images"
+  ],
+  "settings": [
+    {
+      "type": "static",
+      "format": "title",
+      "id": "t-identity",
+      "value": "هوية الثيم"
+    },
+    {
+      "id": "qabas_palette",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "لوحة الألوان",
+      "description": "تتحكم في ألوان الواجهة بالكامل",
+      "labelHTML": null,
+      "icon": "sicon-list",
+      "selected": [
+        {
+          "label": "قبس — ذهبي على ليلي (افتراضي)",
+          "value": "ember",
+          "key": "qabas_palette-ember"
+        }
+      ],
+      "options": [
+        {
+          "label": "قبس — ذهبي على ليلي (افتراضي)",
+          "value": "ember",
+          "key": "qabas_palette-ember"
+        },
+        {
+          "label": "حبر — فضي على فحمي",
+          "value": "ink",
+          "key": "qabas_palette-ink"
+        },
+        {
+          "label": "نخيل — زمردي على ليلي",
+          "value": "palm",
+          "key": "qabas_palette-palm"
+        },
+        {
+          "label": "فجر — ذهبي على فاتح",
+          "value": "dawn",
+          "key": "qabas_palette-dawn"
+        }
+      ],
+      "source": "Manual",
+      "required": true
+    },
+    {
+      "id": "qabas_density",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "كثافة الواجهة",
+      "description": "المسافات وحجم البطاقات",
+      "labelHTML": null,
+      "icon": "sicon-arrow-collapse-vertical",
+      "selected": [
+        {
+          "label": "متوازنة",
+          "value": "balanced",
+          "key": "qabas_density-balanced"
+        }
+      ],
+      "options": [
+        {
+          "label": "مريحة",
+          "value": "roomy",
+          "key": "qabas_density-roomy"
+        },
+        {
+          "label": "متوازنة",
+          "value": "balanced",
+          "key": "qabas_density-balanced"
+        },
+        {
+          "label": "مضغوطة",
+          "value": "compact",
+          "key": "qabas_density-compact"
+        }
+      ],
+      "source": "Manual",
+      "required": true
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "qabas_force_dark",
+      "label": "فرض الوضع الداكن دائماً",
+      "description": "تجاهل تفضيل الجهاز واستخدام الوضع الداكن",
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "static",
+      "format": "line",
+      "id": "l1"
+    },
+    {
+      "type": "static",
+      "format": "title",
+      "id": "t-promise",
+      "value": "وعد التسليم"
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "qabas_show_statusbar",
+      "label": "إظهار شريط حالة النظام أعلى الصفحة",
+      "description": "شريط رفيع يؤكد أن التسليم الآلي يعمل",
+      "icon": "sicon-bell",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "qabas_show_metrics",
+      "label": "إظهار شريط الأرقام",
+      "description": "عدد الأكواد، نسبة النجاح، التسجيل التجاري",
+      "icon": "sicon-chart-bar",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "qabas_metrics_editable_note",
+      "label": "هذه الأرقام تُكتب يدوياً",
+      "description": "تأكد من صحتها — تظهر للعملاء كوعد من متجرك",
+      "icon": "sicon-info",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "static",
+      "format": "line",
+      "id": "l2"
+    },
+    {
+      "type": "static",
+      "format": "title",
+      "id": "t-region",
+      "value": "المنطقة والتوافق"
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "qabas_region_switcher",
+      "label": "إظهار مُحدِّد المنطقة في الرأس",
+      "description": "يسمح للزائر بتصفية المنتجات حسب منطقة الحساب",
+      "icon": "sicon-earth",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "qabas_region_badge_card",
+      "label": "إظهار شارة المنطقة على بطاقة المنتج",
+      "description": "مثل KSA أو UAE فوق صورة البطاقة",
+      "icon": "sicon-tag",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "qabas_region_warning",
+      "label": "إظهار تنبيه التوافق في صفحة المنتج",
+      "description": "تحذير بارز قبل الشراء — يقلل طلبات الاسترجاع",
+      "icon": "sicon-exclamation-triangle",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "static",
+      "format": "line",
+      "id": "l3"
+    },
+    {
+      "type": "static",
+      "format": "title",
+      "id": "t-product",
+      "value": "صفحة المنتج"
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "qabas_denom_tiles",
+      "label": "عرض خيارات الفئة كبطاقات كبيرة",
+      "description": "بدلاً من قائمة منسدلة — أوضح وأسرع للاختيار",
+      "icon": "sicon-grid",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "qabas_show_steps",
+      "label": "إظهار خطوات الاستخدام",
+      "description": "شرح مرقّم لطريقة استبدال الكود",
+      "icon": "sicon-list-ol",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "qabas_sticky_buy",
+      "label": "تثبيت زر الشراء أثناء التمرير",
+      "description": "على الجوال وسطح المكتب",
+      "icon": "sicon-cart",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "qabas_show_payments",
+      "label": "إظهار شعارات وسائل الدفع",
+      "description": null,
+      "icon": "sicon-credit-card",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "static",
+      "format": "line",
+      "id": "l4"
+    },
+    {
+      "type": "static",
+      "format": "title",
+      "id": "t-delivery",
+      "value": "صفحة تسليم الكود"
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "qabas_code_hero",
+      "label": "إبراز الكود في صندوق كبير",
+      "description": "أهم شاشة في المتجر — الكود بخط واضح وزر نسخ",
+      "icon": "sicon-key",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "qabas_code_qr",
+      "label": "إظهار رمز QR بجانب الكود",
+      "description": null,
+      "icon": "sicon-qrcode",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "qabas_code_redeem_btn",
+      "label": "إظهار زر الانتقال لصفحة الاستبدال",
+      "description": null,
+      "icon": "sicon-external-link",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "qabas_show_sla",
+      "label": "إظهار قسم التزام الخدمة",
+      "description": "التسليم، الاستبدال، التوافق",
+      "icon": "sicon-shield-check",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "static",
+      "format": "line",
+      "id": "l5"
+    },
+    {
+      "type": "static",
+      "format": "title",
+      "id": "t-general",
+      "value": "عام"
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "header_is_sticky",
+      "label": "تثبيت الرأس عند التمرير",
+      "description": null,
+      "icon": "sicon-pin",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "enable_add_product_toast",
+      "label": "إظهار إشعار الإضافة إلى السلة",
+      "description": null,
+      "icon": "sicon-bell",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "type": "boolean",
+      "format": "switch",
+      "id": "qabas_show_breadcrumbs",
+      "label": "إظهار مسار التنقل",
+      "description": null,
+      "icon": "sicon-link",
+      "required": false,
+      "value": true,
+      "selected": true
+    }
+  ],
+  "components": [
+    {
+      "key": "qabas-hero-1",
+      "title": {
+        "ar": "قبس — واجهة الوعد",
+        "en": "Qabas — Promise Hero"
+      },
+      "icon": "sicon-bolt",
+      "path": "home.qabas-hero",
+      "is_default": true,
+      "fields": [
+        {
+          "type": "static",
+          "format": "description",
+          "id": "hero-desc",
+          "value": "<div style='font-size:13px;line-height:1.7'>واجهة رئيسية تركز على سرعة التسليم: عنوان، وصف، ومؤشر زمن التسليم.</div>"
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "hero_title",
+          "label": "العنوان الرئيسي",
+          "value": "الكود يصلك خلال ثوانٍ، لا ساعات",
+          "required": true
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "hero_text",
+          "label": "النص التعريفي",
+          "value": "تُسلَّم الأكواد آلياً لحظة اكتمال الدفع — تصل إلى بريدك وتُحفظ في حسابك.",
+          "required": false
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "hero_metric",
+          "label": "مؤشر زمن التسليم",
+          "value": "4.2",
+          "required": false
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "hero_metric_label",
+          "label": "وصف المؤشر",
+          "value": "ثانية — متوسط زمن التسليم",
+          "required": false
+        }
+      ]
+    },
+    {
+      "key": "qabas-metrics-1",
+      "title": {
+        "ar": "قبس — شريط الأرقام",
+        "en": "Qabas — Trust Metrics"
+      },
+      "icon": "sicon-chart-bar",
+      "path": "home.qabas-metrics",
+      "is_default": true,
+      "fields": [
+        {
+          "type": "static",
+          "format": "description",
+          "id": "m-desc",
+          "value": "<div style='font-size:13px;line-height:1.7'>اكتب أرقاماً صحيحة فقط — تظهر للعملاء كوعد من متجرك.</div>"
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "m1_value",
+          "label": "الرقم الأول",
+          "value": "450,000+"
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "m1_label",
+          "label": "وصف الأول",
+          "value": "كود سُلّم حتى اليوم"
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "m2_value",
+          "label": "الرقم الثاني",
+          "value": "99.9%"
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "m2_label",
+          "label": "وصف الثاني",
+          "value": "نسبة التسليم الناجح"
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "m3_value",
+          "label": "الرقم الثالث",
+          "value": "24/7"
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "m3_label",
+          "label": "وصف الثالث",
+          "value": "دعم على الواتساب"
+        }
+      ]
+    },
+    {
+      "key": "qabas-sla-1",
+      "title": {
+        "ar": "قبس — التزام الخدمة",
+        "en": "Qabas — Service Promise"
+      },
+      "icon": "sicon-shield-check",
+      "path": "home.qabas-sla",
+      "is_default": false,
+      "fields": [
+        {
+          "type": "string",
+          "format": "text",
+          "id": "sla1_title",
+          "label": "عنوان ١",
+          "value": "التسليم"
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "sla1_text",
+          "label": "نص ١",
+          "value": "يُسلَّم الكود آلياً خلال ثوانٍ من اكتمال الدفع."
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "sla2_title",
+          "label": "عنوان ٢",
+          "value": "الاستبدال"
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "sla2_text",
+          "label": "نص ٢",
+          "value": "أي كود مرفوض يُستبدل خلال ٢٤ ساعة من الإبلاغ."
+        },
+        {
+          "type": "string",
+          "format": "text",
+          "id": "sla3_title",
+          "label": "عنوان ٣",
+          "value": "التوافق"
+        },
+        {
+          "type": "string",
+          "format": "textarea",
+          "id": "sla3_text",
+          "label": "نص ٣",
+          "value": "منطقة كل بطاقة معروضة قبل الشراء بوضوح."
+        }
+      ]
+    }
+  ]
+}

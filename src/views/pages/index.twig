@@ -1,0 +1,8 @@
+{% extends "layouts.master" %}
+{% block content %}
+    <div class="q-wrap">
+        {% hook 'home.start' %}
+        {% component home %}
+        {% hook 'home.end' %}
+    </div>
+{% endblock %}

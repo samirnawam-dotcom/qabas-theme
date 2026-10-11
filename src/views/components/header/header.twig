@@ -1,0 +1,63 @@
+{# Qabas header — search-first, with region selector #}
+
+{% if theme.settings.get('qabas_show_statusbar', true) %}
+<div class="q-status">
+    <div class="q-wrap in">
+        <span class="live"><i></i>{{ trans('qabas.status_live') }}</span>
+        <ul>
+            <li>{{ trans('qabas.status_support') }}</li>
+            <li>{{ trans('qabas.status_replace') }}</li>
+            {% if store.settings.tax.number %}<li>{{ trans('qabas.status_tax') }}</li>{% endif %}
+        </ul>
+    </div>
+</div>
+{% endif %}
+
+<header class="q-head">
+    <div class="q-wrap in">
+        <a href="{{ store.url }}" class="q-logo">
+            {% if store.logo %}
+                <img src="{{ store.logo }}" alt="{{ store.name }}">
+            {% else %}
+                <span>{{ store.name }}</span>
+            {% endif %}
+        </a>
+
+        <label class="q-search" onclick="salla.event.dispatch('search::open')">
+            <i class="sicon-search"></i>
+            <input type="text" readonly
+                   placeholder="{{ trans('qabas.search_placeholder') }}"
+                   aria-label="{{ trans('qabas.search_placeholder') }}">
+        </label>
+
+        {% if theme.settings.get('qabas_region_switcher', true) %}
+            <button class="q-hbtn" id="q-region" type="button"
+                    data-regions="{{ trans('qabas.regions') }}">
+                {{ trans('qabas.region') }} · <b data-region>{{ trans('qabas.region_default') }}</b>
+            </button>
+        {% endif %}
+
+        <a href="{{ store.url }}/cart" class="q-hbtn">
+            <i class="sicon-cart"></i>
+            <b><salla-cart-summary></salla-cart-summary></b>
+        </a>
+
+        {% if user.id %}
+            <a href="{{ store.url }}/profile" class="q-hbtn"><i class="sicon-user"></i></a>
+        {% else %}
+            <button class="q-hbtn" type="button" onclick="salla.event.dispatch('login::open')">
+                <i class="sicon-user"></i>
+            </button>
+        {% endif %}
+    </div>
+</header>
+
+{% if menus.header is defined and menus.header|length %}
+<nav class="q-nav" aria-label="{{ trans('qabas.categories') }}">
+    <div class="q-wrap in">
+        {% for item in menus.header %}
+            <a href="{{ item.url }}" {{ item.attrs|default('')|raw }}>{{ item.title }}</a>
+        {% endfor %}
+    </div>
+</nav>
+{% endif %}

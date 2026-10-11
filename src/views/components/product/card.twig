@@ -1,0 +1,39 @@
+{# Qabas stub card. Five elements only: art, region, stock, name, denominations + price. #}
+{% set region = product.metadata.region|default(null) %}
+<article class="q-card">
+    <a class="art" href="{{ product.url }}" aria-label="{{ product.name }}">
+        <img src="{{ product.image.url|default(theme.settings.get('placeholder')) }}"
+             alt="{{ product.image.alt|default(product.name) }}" loading="lazy">
+        {% if region and theme.settings.get('qabas_region_badge_card', true) %}
+            <span class="q-rgn">{{ region }}</span>
+        {% endif %}
+        {% if product.is_available %}
+            <span class="q-stock">{{ trans('qabas.instant') }}</span>
+        {% else %}
+            <span class="q-stock low">{{ trans('qabas.sold_out') }}</span>
+        {% endif %}
+    </a>
+
+    <div class="body">
+        <h3><a href="{{ product.url }}">{{ product.name }}</a></h3>
+
+        {% if product.options|length %}
+            {% set denom = product.options|first %}
+            <div class="q-chips">
+                {% for d in denom.details|slice(0, 4) %}
+                    <span class="q-chip">{{ d.name }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="q-row">
+            <div class="q-price">{{ product.price|money }}</div>
+            <salla-add-product-button product-id="{{ product.id }}"
+                                      product-status="{{ product.status }}"
+                                      product-type="{{ product.type }}"
+                                      class="q-btn">
+                {{ trans('qabas.add') }}
+            </salla-add-product-button>
+        </div>
+    </div>
+</article>

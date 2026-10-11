@@ -1,0 +1,15 @@
+{# Qabas hero — the delivery promise. Fields: hero_title, hero_text, hero_metric, hero_metric_label #}
+<section class="q-hero">
+    {% if component.hero_metric %}
+    <div class="q-gauge">
+        <b>{{ component.hero_metric }}</b>
+        <span>{{ component.hero_metric_label }}</span>
+    </div>
+    {% endif %}
+
+    <div class="txt">
+        <span class="q-kick"><i></i>{{ trans('qabas.auto_delivery_on') }}</span>
+        <h1>{{ component.hero_title|raw }}</h1>
+        {% if component.hero_text %}<p>{{ component.hero_text }}</p>{% endif %}
+    </div>
+</section>

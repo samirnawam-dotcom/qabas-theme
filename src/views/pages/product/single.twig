@@ -1,0 +1,125 @@
+{% extends "layouts.master" %}
+{% block content %}
+<div class="q-wrap">
+
+    {% if theme.settings.get('qabas_show_breadcrumbs', true) %}
+        <nav class="breadcrumbs" style="padding-block:16px">
+            <salla-breadcrumb></salla-breadcrumb>
+        </nav>
+    {% endif %}
+
+    {% hook 'product.single.before_product_info' %}
+
+    <div style="display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:24px;margin-bottom:34px"
+         class="q-detail" id="product-{{ product.id }}">
+
+        {# ---------- buy column ---------- #}
+        <div class="q-pane">
+            <h2 style="font-size:22px;font-weight:700;letter-spacing:-.02em;line-height:1.35;margin-bottom:9px">
+                {{ product.name }}
+            </h2>
+
+            {% if product.subtitle %}
+                <p style="font-size:13.2px;color:var(--q-soft);line-height:1.7;margin:0 0 17px">{{ product.subtitle }}</p>
+            {% endif %}
+
+            {# region compatibility warning — set product.metadata.region to e.g. KSA #}
+            {% set region = product.metadata.region|default(null) %}
+            {% if region and theme.settings.get('qabas_region_warning', true) %}
+                <div class="q-warn" role="note">
+                    <i class="sicon-exclamation-triangle"></i>
+                    <p>
+                        <b>{{ trans('qabas.region_only') }}</b><code>{{ region }}</code><br>
+                        {{ trans('qabas.region_warning_body') }}
+                    </p>
+                </div>
+            {% endif %}
+
+            {# denominations: Salla's native product options, styled as tiles #}
+            {% if product.options|length %}
+                <span class="q-lbl">{{ trans('qabas.choose_denom') }}</span>
+                <salla-product-options data-testid="store-product-options"
+                                       options="{{ product.options }}"
+                                       product-id="{{ product.id }}"></salla-product-options>
+            {% endif %}
+
+            {% if theme.settings.get('qabas_show_steps', true) and product.description %}
+                <div style="margin-block:19px">
+                    <span class="q-lbl">{{ trans('qabas.how_to_use') }}</span>
+                    <div class="q-prose" style="font-size:13px;color:var(--q-soft);line-height:1.7">
+                        {{ product.description|raw }}
+                    </div>
+                </div>
+            {% endif %}
+
+            <salla-add-product-button product-id="{{ product.id }}"
+                                      product-status="{{ product.status }}"
+                                      product-type="{{ product.type }}"
+                                      class="q-btn q-btn--solid q-btn--lg">
+                <i class="sicon-bolt"></i>{{ trans('qabas.buy_instant') }}
+            </salla-add-product-button>
+
+            {% if theme.settings.get('qabas_show_payments', true) %}
+                <div class="q-pays">
+                    {% for p in trans('qabas.payments')|split(',') %}
+                        <span class="q-pay">{{ p|trim }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        {# ---------- preview column ---------- #}
+        <div>
+            <div style="background:var(--q-raise);border:1px solid var(--q-line);border-radius:12px;overflow:hidden;margin-bottom:15px">
+                <salla-slider id="details-slider-{{ product.id }}"
+                              class="details-slider image-slider"
+                              data-images='{{ product.images|json_encode }}'
+                              type="thumbs" loop="false" auto-height
+                              show-thumbs-controls="false">
+                    <div slot="items">
+                        {% for image in product.images %}
+                            <img class="swiper-slide" src="{{ image.url }}"
+                                 alt="{{ image.alt|default(product.name) }}" loading="lazy">
+                        {% endfor %}
+                    </div>
+                </salla-slider>
+            </div>
+
+            <div class="q-feats">
+                <div class="q-feat"><i class="sicon-bolt"></i>
+                    <div><b>{{ trans('qabas.feat_instant_t') }}</b><span>{{ trans('qabas.feat_instant_b') }}</span></div></div>
+                <div class="q-feat"><i class="sicon-shield-check"></i>
+                    <div><b>{{ trans('qabas.feat_guarantee_t') }}</b><span>{{ trans('qabas.feat_guarantee_b') }}</span></div></div>
+                {% if store.settings.tax.number %}
+                <div class="q-feat"><i class="sicon-document"></i>
+                    <div><b>{{ trans('qabas.feat_invoice_t') }}</b><span>{{ trans('qabas.feat_invoice_b') }}</span></div></div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% hook 'product.single.after_product_info' %}
+</div>
+
+{% if theme.settings.get('qabas_sticky_buy', true) %}
+<div class="q-stickybar" aria-hidden="true">
+    <div class="q-price">{{ product.price|money }}</div>
+    <salla-add-product-button product-id="{{ product.id }}"
+                              product-status="{{ product.status }}"
+                              product-type="{{ product.type }}"
+                              class="q-btn q-btn--solid">
+        {{ trans('qabas.buy_instant') }}
+    </salla-add-product-button>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block styles %}
+<style>
+@media (max-width:860px){ .q-detail{ grid-template-columns:1fr !important } }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script defer src="{{ 'product.js' | asset }}"></script>
+{% endblock %}

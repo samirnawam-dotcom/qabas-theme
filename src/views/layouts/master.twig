@@ -1,0 +1,93 @@
+{#
+  Qabas — قبس · master layout
+  Theme settings consumed here:
+    qabas_palette (ember|ink|palm|dawn), qabas_density (roomy|balanced|compact),
+    qabas_force_dark, header_is_sticky, qabas_sticky_buy, qabas_denom_tiles
+#}
+<!DOCTYPE html>
+<html lang="{{ language.code }}" dir="{{ theme.is_rtl ? 'rtl' : 'ltr' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    {{ theme.settings.set('placeholder', 'images/placeholder.png') }}
+
+    <script defer data-cfasync="false" crossorigin="anonymous" src="{{ 'product-card.js'|asset }}"></script>
+    {% if theme.settings.get('enable_add_product_toast', true) %}
+        <script defer src="{{ 'add-product-toast.js'|asset }}"></script>
+    {% endif %}
+    {% block head_scripts %}{% endblock %}
+
+    <script data-cfasync="false">
+        window.qabas = {
+            sticky:        "{{ theme.settings.get('header_is_sticky', true) }}",
+            stickyBuy:     "{{ theme.settings.get('qabas_sticky_buy', true) }}",
+            denomTiles:    "{{ theme.settings.get('qabas_denom_tiles', true) }}",
+            regionSwitch:  "{{ theme.settings.get('qabas_region_switcher', true) }}"
+        };
+    </script>
+
+    {% hook 'head:start' %}
+    {% hook head %}
+    {% block styles %}{% endblock %}
+
+    <link rel="stylesheet" href="{{ 'qabas.css' | asset }}">
+    <link rel="stylesheet" href="{{ theme.font.path|cdn }}"/>
+    <link rel="stylesheet" href="{{ 'fonts/sallaicons.css'|cdn }}"/>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+
+    <style>
+        :root{
+            --font-main: '{{ theme.font.name }}';
+            --color-primary: {{ theme.color.primary }};
+            --color-primary-dark: {{ theme.color.darker(0.15) }};
+            --color-primary-light: {{ theme.color.lighter(0.15) }};
+            --color-primary-reverse: {{ theme.color.reverse_text }};
+        }
+        body.qabas{ font-family: var(--font-main), system-ui, -apple-system, "Segoe UI", sans-serif; }
+    </style>
+
+    {% hook 'head:end' %}
+</head>
+
+<body id="app"
+      class="qabas theme-qabas
+             qp-{{ theme.settings.get('qabas_palette', 'ember') }}
+             qd-{{ theme.settings.get('qabas_density', 'balanced') }}
+             {{ theme.settings.get('header_is_sticky', true) ? 'q-sticky' : '' }}
+             {{ theme.settings.get('qabas_denom_tiles', true) ? 'q-denom' : '' }}
+             {% hook 'body:classes' %}">
+<noscript>{{ trans('qabas.noscript') }}</noscript>
+
+<div class="app-inner">
+    {% hook 'body:start' %}
+    {% component 'header.header' %}
+
+    <main id="main-content" role="main">
+        {% block content %}{% endblock %}
+    </main>
+
+    {% component 'footer.footer' %}
+</div>
+
+{% hook 'body:end' %}
+
+{% if theme.settings.get('enable_add_product_toast', true) %}
+    <salla-add-product-toast data-testid="store-add-product-toast"></salla-add-product-toast>
+{% endif %}
+
+<script defer crossorigin="anonymous" src="{{ 'app.js' | asset }}"></script>
+<script defer src="{{ 'qabas.js' | asset }}"></script>
+
+<salla-offer-modal data-testid="store-offer-modal"></salla-offer-modal>
+<salla-search data-testid="store-search-modal"></salla-search>
+<salla-login-modal data-testid="store-login-modal"></salla-login-modal>
+{% if store.scope %}
+    <salla-scopes data-testid="store-scopes"
+                  selection="{{ store.scope.display_as == 'popup' ? 'mandatory' : 'optional' }}"></salla-scopes>
+{% endif %}
+
+{% block scripts %}{% endblock %}
+</body>
+</html>
